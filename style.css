@@ -118,6 +118,53 @@ h1 {
     border: 0;
 }
 
+/* Aktuellt väder */
+#weather-result {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    align-items: center;
+    gap: 16px;
+    max-width: 660px;
+    margin: 36px auto 0;
+    padding: 16px 24px;
+    background-color: white;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+}
+
+#weather-result[hidden] {
+    display: none;
+}
+
+#weather-icon {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+}
+
+#weather-city {
+    min-width: 0;
+    margin: 0;
+    font-size: 24px;
+    font-weight: 500;
+    overflow-wrap: anywhere;
+}
+
+#weather-result p {
+    min-width: 0;
+    margin: 0;
+    font-size: 16px;
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 600px) {
+    #weather-result {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+        padding: 12px;
+    }
+}
+
 /* Mobilanpassning */
 @media (max-width: 600px) {
     body main.container {
