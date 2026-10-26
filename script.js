@@ -17,6 +17,55 @@ $(function () {
         fetchWeather({ q: city }, id);
     });
 
+    // Hämta användarens position när platsknappen klickas.
+    $("#location-button").on("click", function () {
+        const id = startSearch("Finding your location...");
+
+        if (!navigator.geolocation) {
+            $("#status-message").text(
+                "Your browser does not support geolocation."
+            );
+            return;
+        }
+
+        navigator.geolocation.getCurrentPosition(
+            function (position) {
+                // Ignorera svaret om en ny sökning har påbörjats.
+                if (id !== searchId) {
+                    return;
+                }
+
+                $("#status-message").text("Loading weather...");
+
+                fetchWeather({
+                    lat: position.coords.latitude,
+                    lon: position.coords.longitude
+                }, id);
+            },
+            function (error) {
+                if (id !== searchId) {
+                    return;
+                }
+
+                let message = "Could not find your location.";
+
+                if (error.code === 1) {
+                    message = "Location access denied. Allow access or search for a city.";
+                } else if (error.code === 2) {
+                    message = "Your location is currently unavailable.";
+                } else if (error.code === 3) {
+                    message = "Finding your location timed out. Please try again.";
+                }
+
+                $("#status-message").text(message);
+            },
+            {
+                timeout: 10000,
+                maximumAge: 60000
+            }
+        );
+    });
+
     // Förbered en ny sökning.
     function startSearch(message) {
         searchId += 1;
