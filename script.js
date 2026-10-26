@@ -2,6 +2,21 @@ $(function () {
     let currentRequest = null;
     let searchId = 0;
 
+    const cityPopover = new bootstrap.Popover($("#city-input")[0], {
+        content: "We couldn't find the city, try again!",
+        placement: "bottom",
+        trigger: "manual",
+        container: "body",
+        customClass: "city-error-popover",
+        animation: false
+    });
+    
+    // Dölj felet när användaren skriver eller lämnar fältet.
+    $("#city-input").on("input blur", function () {
+        cityPopover.hide();
+        $(this).removeAttr("aria-invalid");
+    });
+
     // Sök efter en stad med Enter.
     $("#search-form").on("submit", function (event) {
         event.preventDefault();
@@ -68,6 +83,9 @@ $(function () {
 
     // Förbered en ny sökning.
     function startSearch(message) {
+        cityPopover.hide();
+        $("#city-input").removeAttr("aria-invalid");
+
         searchId += 1;
 
         if (currentRequest) {
@@ -106,17 +124,25 @@ $(function () {
                 if (textStatus === "abort" || id !== searchId) {
                     return;
                 }
-
-                let message = "Could not fetch weather. Please try again.";
-
+            
                 if (xhr.status === 404) {
-                    message = "City not found. Please try another city.";
-                } else if (xhr.status === 401) {
+                    $("#status-message").text("");
+                    $("#city-input")
+                        .attr("aria-invalid", "true")
+                        .trigger("focus");
+            
+                    cityPopover.show();
+                    return;
+                }
+            
+                let message = "Could not fetch weather. Please try again.";
+            
+                if (xhr.status === 401) {
                     message = "API key not accepted. Check your API key.";
                 } else if (textStatus === "timeout") {
                     message = "The request timed out. Please try again.";
                 }
-
+            
                 $("#status-message").text(message);
             })
             .always(function () {

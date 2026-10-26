@@ -157,12 +157,15 @@ h1 {
     overflow-wrap: anywhere;
 }
 
-@media (max-width: 600px) {
-    #weather-result {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 12px;
-        padding: 12px;
-    }
+/* Felmeddelande under sökfältet */
+.city-error-popover {
+    max-width: min(400px, calc(100vw - 32px));
+}
+
+.city-error-popover .popover-body {
+    padding: 20px 24px;
+    color: darkslategray;
+    font-size: 18px;
 }
 
 /* Mobilanpassning */
