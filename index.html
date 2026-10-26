@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Service</title>
+</head>
+<body>
+    <main class="container">
+        <section class="weather-panel" aria-labelledby="page-heading">
+            <h1 id="page-heading">Weather Service</h1>
+
+            <p class="intro">
+                We'll fetch the weather for you!
+                Where do you want to know the weather?
+            </p>
+
+            <div class="search-controls">
+                <button type="button" id="location-button">
+                    My location!
+                </button>
+
+                <form id="search-form">
+                    <label for="city-input">Enter city</label>
+                    <input
+                        type="text"
+                        id="city-input"
+                        name="city"
+                        placeholder="Enter city here..."
+                        required
+                    >
+                </form>
+            </div>
+
+            <p id="status-message" role="status"></p>
+        </section>
+    </main>
+</body>
+</html>
